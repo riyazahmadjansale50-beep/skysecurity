@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sky Eye Security | Quotation Generator</title>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #eef2f8;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      padding: 24px 20px;
+    }
+    .main-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+    }
+    .form-panel {
+      flex: 1.2;
+      min-width: 300px;
+      background: white;
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
+    .preview-panel {
+      flex: 1.5;
+      min-width: 380px;
+      background: white;
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
+    /* Logo area */
+    .logo-area {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      border-bottom: 2px solid #eef2fc;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    .logo-img {
+      width: 70px;
+      height: 70px;
+      background: #ffffff;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .logo-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .company h2 {
+      color: #0a2f44;
+      font-size: 1.6rem;
+    }
+    .company p {
+      font-size: 0.8rem;
+      color: #3b5c7a;
+      margin-top: 4px;
+    }
+    .section-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin: 26px 0 14px 0;
+      color: #1f4e72;
+      border-left: 4px solid #ffaa44;
+      padding-left: 12px;
+    }
+    .input-field {
+      margin-bottom: 16px;
+    }
+    .input-field label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #4f6f8f;
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cfdfed;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    .item-card {
+      background: #fbfdff;
+      border-radius: 24px;
+      margin-bottom: 12px;
+      padding: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid #eef2fa;
+    }
+    .item-card input {
+      flex: 2;
+      min-width: 120px;
+    }
+    .item-card input.qty-inp, .item-card input.price-inp {
+      flex: 0.8;
+      min-width: 85px;
+    }
+    .item-total-display {
+      background: #eef3fc;
+      padding: 8px 12px;
+      border-radius: 40px;
+      font-weight: bold;
+      min-width: 85px;
+      text-align: center;
+    }
+    .remove-item-btn {
+      background: #ffe6e6;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 40px;
+      color: #b91c1c;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .add-item-btn {
+      background: #2c7da0;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      margin-top: 6px;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .total-summary {
+      background: #f0f6fe;
+      padding: 14px 18px;
+      border-radius: 28px;
+      font-weight: bold;
+      margin: 20px 0;
+      font-size: 1.1rem;
+    }
+    .refresh-btn {
+      background: #2c7da0;
+      color: white;
+      width: 100%;
+      border: none;
+      padding: 12px;
+      border-radius: 40px;
+      font-weight: bold;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+    .quote-card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid #e9edf2;
+    }
+    .quote-header {
+      background: #0f2b3d;
+      color: white;
+      padding: 16px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .quote-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .quote-logo img {
+      height: 45px;
+      width: auto;
+      border-radius: 12px;
+    }
+    .quote-meta {
+      background: #fff8f0;
+      padding: 10px 22px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+    .client-preview {
+      padding: 14px 22px;
+      background: #fefaf5;
+      border-bottom: 1px solid #eee;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid #ecf3f9;
+    }
+    th {
+      background: #f8fafc;
+    }
+    .grand-total-preview {
+      text-align: right;
+      padding: 16px 22px;
+      font-weight: 800;
+      background: #fffbf5;
+      border-top: 2px dashed #ffcd94;
+    }
+    .quote-footer {
+      padding: 14px 22px;
+      text-align: right;
+      font-size: 0.7rem;
+      border-top: 1px solid #eef2f8;
+    }
+    .action-buttons {
+      margin-top: 24px;
+      display: flex;
+      gap: 14px;
+      justify-content: flex-end;
+    }
+    .print-quote, .reset-demo {
+      border: none;
+      padding: 8px 18px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .print-quote { background: #ffedd5; }
+    .reset-demo { background: #eef2fa; }
+    @media (max-width: 800px) {
+      .form-panel, .preview-panel { min-width: 100%; }
+      .item-card { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+<div class="main-wrapper">
+  <!-- LEFT FORM PANEL -->
+  <div class="form-panel">
+    <div class="logo-area">
+      <div class="logo-img">
+        <!-- YOUR LOGO: mylogo.png (place file in same folder) -->
+        <img src="mylogo.png" alt="Sky Eye Security Logo">
+      </div>
+      <div class="company">
+        <h2>Sky Eye Security</h2>
+        <p><i class="fas fa-user"></i> Riyaz | 📞 8861324207 | ✉️ skyeyesecurity2025@gmail.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> Bangalore, India</p>
+      </div>
+    </div>
+
+    <!-- Optional file upload to change logo later (keeps flexibility) -->
+    <div class="input-field">
+      <label>Change Logo (optional)</label>
+      <input type="file" id="logoUpload" accept="image/*">
+    </div>
+
+    <div class="section-title"><i class="fas fa-user-friends"></i> Client Information</div>
+    <div class="input-field"><label>Client Name</label><input type="text" id="clientName" value="Apex Solutions"></div>
+    <div class="input-field"><label>Email</label><input type="email" id="clientEmail" value="contact@apex.com"></div>
+    <div class="input-field"><label>Phone</label><input type="text" id="clientPhone" value="+91 9876543210"></div>
+    <div class="input-field"><label>Address / Site</label><textarea id="clientAddress" rows="2">Bangalore, Electronic City</textarea></div>
+    <div class="input-field"><label>Quotation Date</label><input type="date" id="quoteDate" value="2026-06-11"></div>
+
+    <div class="section-title"><i class="fas fa-boxes"></i> Products / Services</div>
+    <div id="itemsContainer"></div>
+    <button id="addItemBtn" class="add-item-btn"><i class="fas fa-plus-circle"></i> Add Line Item</button>
+
+    <div class="section-title"><i class="fas fa-file-signature"></i> Terms & Notes</div>
+    <textarea id="termsNotes" rows="2">Valid for 30 days. 18% GST applicable. Thank you for your trust!</textarea>
+
+    <div class="total-summary" id="totalSummaryBox">Total: ₹0.00</div>
+    <button id="refreshPreviewBtn" class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh Quotation</button>
+  </div>
+
+  <!-- RIGHT PREVIEW PANEL -->
+  <div class="preview-panel">
+    <div class="quote-card" id="quoteCard">
+      <div class="quote-header">
+        <div class="quote-logo" id="rightLogo">
+          <img src="mylogo.png" alt="Logo" style="height:45px;">
+          <span style="font-weight:700;">SKY EYE SECURITY</span>
+        </div>
+        <div style="font-weight:700; font-size:1.3rem;">QUOTATION</div>
+      </div>
+      <div class="quote-meta">
+        <span>📄 Quote #SQ-2412</span>
+        <span>📅 Date: <span id="previewDate">2026-06-11</span></span>
+      </div>
+      <div class="client-preview" id="clientPreviewBlock"></div>
+      <table>
+        <thead><tr><th>Description</th><th>Qty</th><th>Unit Price (₹)</th><th>Amount (₹)</th></tr></thead>
+        <tbody id="previewItemsList"></tbody>
+      </table>
+      <div class="grand-total-preview" id="previewGrandTotal">Total: ₹0.00</div>
+      <div class="quote-footer">
+        <i class="fas fa-hand-peace"></i> For Sky Eye Security<br>
+        <strong>Riyaz</strong> | Authorized Signatory<br>
+        📞 8861324207 ✉️ skyeyesecurity2025@gmail.com
+      </div>
+    </div>
+    <div class="action-buttons">
+      <button id="printQuote" class="print-quote"><i class="fas fa-print"></i> Print / PDF</button>
+      <button id="resetDemo" class="reset-demo"><i class="fas fa-undo-alt"></i> Reset Demo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- DATA ----------
+  let items = [
+    { id: "i1", name: "4MP CCTV Bullet Camera", qty: 4, price: 2850 },
+    { id: "i2", name: "8 Channel DVR + 1TB HDD", qty: 1, price: 12500 },
+    { id: "i3", name: "Installation & Cabling", qty: 1, price: 4500 }
+  ];
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  // Render item rows in left panel
+  function renderItemsForm() {
+    const container = document.getElementById('itemsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    items.forEach((item) => {
+      const totalVal = item.qty * item.price;
+      const row = document.createElement('div');
+      row.className = 'item-card';
+      row.setAttribute('data-id', item.id);
+      row.innerHTML = `
+        <input type="text" class="item-name" value="${escapeHtml(item.name)}" placeholder="Item name" style="flex:2;">
+        <input type="number" class="item-qty" value="${item.qty}" step="1" min="1" style="flex:1; width:90px;">
+        <input type="number" class="item-price" value="${item.price}" step="100" min="0" style="flex:1; width:110px;">
+        <span class="item-total-display">₹${totalVal.toFixed(2)}</span>
+        <button class="remove-item-btn" data-id="${item.id}">✖ Remove</button>
+      `;
+      container.appendChild(row);
+
+      const nameInp = row.querySelector('.item-name');
+      const qtyInp = row.querySelector('.item-qty');
+      const priceInp = row.querySelector('.item-price');
+      const totalSpan = row.querySelector('.item-total-display');
+      const removeBtn = row.querySelector('.remove-item-btn');
+
+      const updateItem = () => {
+        item.name = nameInp.value;
+        item.qty = parseFloat(qtyInp.value) || 0;
+        item.price = parseFloat(priceInp.value) || 0;
+        const newTotal = item.qty * item.price;
+        totalSpan.innerText = `₹${newTotal.toFixed(2)}`;
+        updateTotalSummary();
+        updatePreview();
+      };
+      nameInp.addEventListener('input', updateItem);
+      qtyInp.addEventListener('input', updateItem);
+      priceInp.addEventListener('input', updateItem);
+      removeBtn.addEventListener('click', () => {
+        const idx = items.findIndex(i => i.id === item.id);
+        if (idx !== -1) items.splice(idx, 1);
+        renderItemsForm();
+        updateTotalSummary();
+        updatePreview();
+      });
+    });
+    updateTotalSummary();
+  }
+
+  function updateTotalSummary() {
+    let total = items.reduce((sum, i) => sum + (i.qty * i.price), 0);
+    document.getElementById('totalSummaryBox').innerHTML = `Total: ₹${total.toFixed(2)}`;
+  }
+
+  function updatePreview() {
+    const clientName = document.getElementById('clientName').value.trim() || '—';
+    const clientEmail = document.getElementById('clientEmail').value.trim();
+    const clientPhone = document.getElementById('clientPhone').value.trim();
+    const clientAddr = document.getElementById('clientAddress').value.trim();
+    const quoteDate = document.getElementById('quoteDate').value;
+    const terms = document.getElementById('termsNotes').value;
+
+    document.getElementById('previewDate').innerText = quoteDate;
+    const clientBlock = document.getElementById('clientPreviewBlock');
+    clientBlock.innerHTML = `
+      <strong><i class="fas fa-user"></i> ${escapeHtml(clientName)}</strong><br>
+      <i class="fas fa-envelope"></i> ${escapeHtml(clientEmail)} &nbsp;|&nbsp; <i class="fas fa-phone"></i> ${escapeHtml(clientPhone)}<br>
+      <i class="fas fa-location-dot"></i> ${escapeHtml(clientAddr)}
+    `;
+
+    const tbody = document.getElementById('previewItemsList');
+    if (items.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">✨ No items added. Click "Add Line Item" ✨</td></tr>';
+      document.getElementById('previewGrandTotal').innerHTML = `Total Amount: ₹0.00<br><span style="font-size:0.7rem;">${escapeHtml(terms)}</span>`;
+      return;
+    }
+    let grand = 0;
+    let rows = '';
+    items.forEach(it => {
+      const amt = it.qty * it.price;
+      grand += amt;
+      rows += `<tr>
+        <td>${escapeHtml(it.name)}</td>
+        <td style="text-align:center">${it.qty}</td>
+        <td style="text-align:right">₹${it.price.toFixed(2)}</td>
+        <td style="text-align:right">₹${amt.toFixed(2)}</td>
+      </table>`;
+    });
+    tbody.innerHTML = rows;
+    document.getElementById('previewGrandTotal').innerHTML = `Total Amount: ₹${grand.toFixed(2)}<br><span style="font-size:0.7rem;">${escapeHtml(terms)}</span>`;
+  }
+
+  function addNewItem() {
+    const newId = 'id_' + Date.now() + '_' + Math.floor(Math.random() * 9999);
+    items.push({
+      id: newId,
+      name: 'New Security Device',
+      qty: 1,
+      price: 1999
+    });
+    renderItemsForm();
+    updatePreview();
+    console.log("✅ Item added, total items:", items.length);
+  }
+
+  function resetDemo() {
+    items = [
+      { id: "d1", name: "AI Smart CCTV Camera (4MP)", qty: 5, price: 3450 },
+      { id: "d2", name: "16 Channel NVR + 2TB", qty: 1, price: 24500 },
+      { id: "d3", name: "Annual Maintenance Contract", qty: 1, price: 12000 },
+      { id: "d4", name: "Smart Door Sensor Kit", qty: 3, price: 1890 }
+    ];
+    document.getElementById('clientName').value = 'Elite Tech Solutions';
+    document.getElementById('clientEmail').value = 'billing@elitetech.in';
+    document.getElementById('clientPhone').value = '+91 9988776655';
+    document.getElementById('clientAddress').value = '#42, Brigade Road, Bangalore - 560001';
+    document.getElementById('quoteDate').value = new Date().toISOString().slice(0,10);
+    document.getElementById('termsNotes').value = 'Quote valid for 30 days. 5% discount on advance payment. GST extra.';
+    renderItemsForm();
+    updatePreview();
+  }
+
+  function printQuote() {
+    const printContent = document.getElementById('quoteCard').cloneNode(true);
+    const style = document.createElement('style');
+    style.textContent = `body { padding: 20px; font-family: sans-serif; } .action-buttons { display: none; }`;
+    const win = window.open('', '_blank');
+    if (!win) {
+      alert("Please allow popups to print.");
+      return;
+    }
+    win.document.write(`<!DOCTYPE html><html><head><title>Sky Eye Quotation</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">${style.outerHTML}</head><body>`);
+    win.document.write(printContent.outerHTML);
+    win.document.write('<div style="text-align:center; margin-top:20px;">Sky Eye Security | Riyaz | 8861324207</div>');
+    win.document.close();
+    win.print();
+  }
+
+  // Logo upload (optional – overrides the default mylogo.png)
+  function setupLogoUpload() {
+    const uploadInput = document.getElementById('logoUpload');
+    if (!uploadInput) return;
+    uploadInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          const imgUrl = ev.target.result;
+          // Update left logo
+          const leftLogoDiv = document.querySelector('.logo-img');
+          if (leftLogoDiv) {
+            leftLogoDiv.innerHTML = `<img src="${imgUrl}" alt="Logo" style="width:100%; height:100%; object-fit:contain;">`;
+          }
+          // Update right logo
+          const rightLogoDiv = document.getElementById('rightLogo');
+          if (rightLogoDiv) {
+            // Keep the text, replace image
+            const oldImg = rightLogoDiv.querySelector('img');
+            if (oldImg) oldImg.src = imgUrl;
+            else rightLogoDiv.insertAdjacentHTML('afterbegin', `<img src="${imgUrl}" alt="Logo" style="height:45px;">`);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Event binding
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('addItemBtn').addEventListener('click', addNewItem);
+    document.getElementById('refreshPreviewBtn').addEventListener('click', updatePreview);
+    document.getElementById('printQuote').addEventListener('click', printQuote);
+    document.getElementById('resetDemo').addEventListener('click', resetDemo);
+    const fields = ['clientName', 'clientEmail', 'clientPhone', 'clientAddress', 'quoteDate', 'termsNotes'];
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updatePreview);
+    });
+    document.getElementById('quoteDate').addEventListener('change', updatePreview);
+    renderItemsForm();
+    updatePreview();
+    setupLogoUpload();
+  });
+</script>
+</body>
+</html>
